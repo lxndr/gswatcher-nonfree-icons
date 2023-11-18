@@ -1,0 +1,27 @@
+name: Check Build
+
+on:
+  push:
+    tags:
+      - "v*.*.*"
+
+jobs:
+  Ubuntu_22_04:
+    runs-on: ubuntu-22.04
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+    - name: Install packages
+      run: sudo apt-get update && sudo apt-get install -y imagemagick
+    - name: Setup meson project
+      run: meson setup builddir
+    - name: Build
+      run: |
+        ./build.sh ./nonfree-icons/games
+        tar -czvf nonfree-icons.tar.gz nonfree-icons
+    - name: Publish
+      uses: softprops/action-gh-release@v1
+      with:
+        generate_release_notes: false
+        files: nonfree-icons.tar.gz
+

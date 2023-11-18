@@ -1,4 +1,4 @@
-name: Check Build
+name: Build
 
 on:
   push:
@@ -13,8 +13,6 @@ jobs:
       uses: actions/checkout@v4
     - name: Install packages
       run: sudo apt-get update && sudo apt-get install -y imagemagick
-    - name: Setup meson project
-      run: meson setup builddir
     - name: Build
       run: |
         ./build.sh ./nonfree-icons/games
